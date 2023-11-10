@@ -9,6 +9,7 @@ import { DashboardComponent } from './components/pages/dashboard/dashboard.compo
 import { LoginComponent } from './components/auth/login/login.component';
 import { NavComponent } from './components/shared/nav/nav.component';
 import { ReactiveFormsModule } from '@angular/forms';
+import { HttpClientModule } from '@angular/common/http';
 
 
 @NgModule({
@@ -23,7 +24,8 @@ import { ReactiveFormsModule } from '@angular/forms';
   imports: [
     BrowserModule,
     AppRoutingModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    HttpClientModule
   ],
   providers: [],
   bootstrap: [AppComponent]

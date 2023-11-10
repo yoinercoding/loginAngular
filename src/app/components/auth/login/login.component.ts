@@ -12,6 +12,8 @@ import { LoginRequest } from 'src/app/services/auth/loginRequest';
 
 export class LoginComponent implements OnInit {
 
+  loginError:string=""
+
   loginForm = this.formBuilder.group({
     email: ['yoinercoding@gmail.com', [Validators.required, Validators.email]],
     password: ['', Validators.required]
@@ -39,6 +41,7 @@ export class LoginComponent implements OnInit {
         },
         error: (errorData) => {
           console.log(errorData)
+          this.loginError=errorData
         },
         complete: () => {
           console.log("Login completo")

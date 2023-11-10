@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+import { LoginService } from 'src/app/services/auth/login.service';
+import { LoginRequest } from 'src/app/services/auth/loginRequest';
 
 @Component({
   selector: 'app-login',
@@ -9,13 +11,13 @@ import { Router } from '@angular/router';
 })
 
 export class LoginComponent implements OnInit {
-  
-  loginForm = this.formBuilder.group ({
-    email:['yoinercoding@gmail.com', [Validators.required, Validators.email]],
+
+  loginForm = this.formBuilder.group({
+    email: ['yoinercoding@gmail.com', [Validators.required, Validators.email]],
     password: ['', Validators.required]
   })
 
-  constructor(private formBuilder:FormBuilder, private router:Router) {}
+  constructor(private formBuilder: FormBuilder, private router: Router, private loginService: LoginService) { }
 
   ngOnInit(): void {
 
@@ -30,11 +32,22 @@ export class LoginComponent implements OnInit {
   }
 
   login() {
-    if(this.loginForm.valid) {
-      this.router.navigateByUrl('/inicio');
-      this.loginForm.reset();
-  } else {
-      this.loginForm.markAllAsTouched();
+    if (this.loginForm.valid) {
+      this.loginService.login(this.loginForm.value as LoginRequest).subscribe({
+        next: (userData) => {
+          console.log(userData)
+        },
+        error: (errorData) => {
+          console.log(errorData)
+        },
+        complete: () => {
+          console.log("Login completo")
+          this.router.navigateByUrl('/inicio')
+          this.loginForm.reset()
+        }
+      })      
+    } else {
+      this.loginForm.markAllAsTouched()
+    }
   }
-}
 }
